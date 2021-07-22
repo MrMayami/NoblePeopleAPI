@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/radioFragment">
+
+    <fragment
+        android:id="@+id/radioFragment"
+        android:name="com.noblepeople.android.feature.main.radio.RadioFragment"
+        android:label="fragment_radio"
+        tools:layout="@layout/fragment_radio" />
+    <fragment
+        android:id="@+id/magazineFragment"
+        android:name="com.noblepeople.android.feature.main.magazine.MagazineFragment"
+        android:label="fragment_magazine"
+        tools:layout="@layout/fragment_magazine" />
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.noblepeople.android.feature.main.news.NewsFragment"
+        android:label="fragment_news"
+        tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/tvFragment"
+        android:name="com.noblepeople.android.feature.main.tv.TvFragment"
+        android:label="fragment_tv"
+        tools:layout="@layout/fragment_tv" />
+    <fragment
+        android:id="@+id/upcomingFragment"
+        android:name="com.noblepeople.android.feature.main.upcoming.UpcomingFragment"
+        android:label="fragment_upcoming"
+        tools:layout="@layout/fragment_upcoming" />
+    <fragment
+        android:id="@+id/upcomingDetailsFragment"
+        android:name="com.noblepeople.android.feature.main.upcoming.UpcomingDetailsFragment"
+        android:label="fragment_upcoming_details"
+        tools:layout="@layout/fragment_upcoming_details" />
+    <fragment
+        android:id="@+id/magazineDetailsFragment"
+        android:name="com.noblepeople.android.feature.main.magazine.MagazineDetailsFragment"
+        android:label="fragment_magazine_details"
+        tools:layout="@layout/fragment_magazine_details" />
+</navigation>
