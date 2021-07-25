@@ -25,36 +25,8 @@ def LiveRadio():
                 "host" : "Noble People",
                 "station" : "Noble FM"
             }
-    mLiveRadioDB = json.dumps(mData)
-    
 
-    return mLiveRadioDB
-
-
-
-def catSearching(mLink):
-    catArray = []
-    try:
-        cats = mLink.find_all('a', {"rel":"category tag"})
-        cat = ''.join(cats.findAll(text=True))
-        for cat in cats:
-            catArray.append(cat)
-    except requests.exceptions.Timeout:
-        print("Connection Timeout.... Trying again....")
-        cats = mLink.find('a', {"rel":"category tag"})
-        catArray.append(cat)
-    except requests.exceptions.TooManyRedirects:
-        print("Too many Redirects...")
-    except requests.exceptions.RequestException as e:
-        print(e)
-        raise SystemExit(e)
-    except requests.exceptions.HTTPError as err:
-        print(err)
-        raise SystemExit(err)
-    except requests.exceptions.ConnectionError:
-        pass
-
-    return catArray
+    return jsonify({'data': mData})
 
 def LiveTV():
     req = requests.get('https://noblepeople.co.uk/noble-tv/', headers={'User-Agent': 'Chrome', 'Accept-Encoding': 'identity', 'Content-Type': 'text/html'})
@@ -70,7 +42,7 @@ def LiveTV():
     mLiveTVDB = json.dumps(mData)
     
 
-    return mLiveTVDB
+    return jsonify({'data':mData})
 
 def LiveUpComing():
     req = requests.get('https://noblepeople.co.uk/show-schedule/', headers={'User-Agent': 'Chrome', 'Accept-Encoding': 'identity', 'Content-Type': 'text/html'})
@@ -98,22 +70,7 @@ def LiveUpComing():
             "img" : mImg
             }
 
-    mLiveUpComing = json.dumps(mData)
-    
-
-    return mLiveUpComing
-
-def mArticle(url):
-    req = requests.get(url, headers={'User-Agent': 'Chrome', 'Accept-Encoding': 'identity', 'Content-Type': 'text/html'})
-    soup = BeautifulSoup(req.text, 'html5lib')
-    mArticles = soup.find_all('div', {"dir":"auto"})
-    
-    resArray = []
-    for mArticle in mArticles:
-        res = ''.join(mArticle.findAll(text=True))
-        resArray.append(res)
-
-    return resArray
+    return jsonify({'data':mData})   
 
 def LiveMag():
     req = requests.get('https://noblepeople.co.uk/magazine/', headers={'User-Agent': 'Chrome', 'Accept-Encoding': 'identity', 'Content-Type': 'text/html'})
@@ -135,24 +92,20 @@ def LiveMag():
         author = mLink.find("a", {"rel":"author"}).contents[0]
         # print(author)
         articleLink = mLink.find("a", {"class":"qt-text-shadow"})['href']
-        article = mArticle(articleLink)
+        
         # print(article)
         mData = {
-            "cat" : cat.contents[0],
-            "title" : title,
+            "cat" : cat.contents[0].strip(),
+            "title" : title.strip(),
             "img" : img,
             "date" : date,
             "author" : author,
-            "articleWebLink" : articleLink,
-            "article" : article
+            "articleWebLink" : articleLink
             }
 
         mDataArray.append(mData)
-    
-    mMagDB = json.dumps(mDataArray)
-    
 
-    return mMagDB
+    return jsonify({'data':mDataArray})
 
 def LiveNews():
     req = requests.get('https://noblepeople.co.uk/news/', headers={'User-Agent': 'Chrome', 'Accept-Encoding': 'identity', 'Content-Type': 'text/html'})
@@ -176,22 +129,28 @@ def LiveNews():
         author = mLink.find("a", {"rel":"author"}).contents[0]
         # print(author)
         articleLink = mLink.find("a", {"class":"qt-text-shadow"})['href']
-        article = mArticle(articleLink)
-        # print(article)
+        
+        # Format data
+        mCat = cat.contents[0]
+        mTitle = title.strip()
+        mImg = img.strip()
+        mDate = date.strip()
+        mAuthor = author.strip()
+        mArticleWebLink = articleLink.strip()
+        
+
         mData = {
-            "cat" : cat.contents[0],
-            "title" : title,
-            "img" : img,
-            "date" : date,
-            "author" : author,
-            "articleWebLink" : articleLink,
-            "article" : article
+            "cat" : mCat,
+            "title" : mTitle,
+            "img" : mImg,
+            "date" : mDate,
+            "author" : mAuthor,
+            "articleWebLink" : mArticleWebLink,
             }
 
         mDataArray.append(mData)
-    mNewsDB = json.dumps(mDataArray)
     
-    return mNewsDB
+    return jsonify({'data': mDataArray})
 
 class Mag(Resource):
     def get(self):
