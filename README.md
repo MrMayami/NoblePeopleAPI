@@ -19,6 +19,8 @@ GET LiveTV - https://nobles-people-api.herokuapp.com/tv
 
 GET LiveNews - https://nobles-people-api.herokuapp.com/news
 
+GET LiveMagazine - https://nobles-people-api.herokuapp.com/magazine
+
 GET LiveUpcoming - https://nobles-people-api.herokuapp.com/upcoming
 
 # HOW TO USE API WITH KOTLIN
@@ -51,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        run("https://api.github.com/users/Evin1-/repos")
+        run("ENDPOINT-URL")
     }
 
     fun run(url: String) {
