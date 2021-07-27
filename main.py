@@ -26,7 +26,7 @@ def LiveRadio():
                 "station" : "Noble FM"
             }
 
-    return jsonify({'data': mData})
+    return jsonify(mData)
 
 def LiveTV():
     req = requests.get('https://noblepeople.co.uk/noble-tv/', headers={'User-Agent': 'Chrome', 'Accept-Encoding': 'identity', 'Content-Type': 'text/html'})
@@ -42,13 +42,14 @@ def LiveTV():
     mLiveTVDB = json.dumps(mData)
     
 
-    return jsonify({'data':mData})
+    return jsonify(mData)
 
 def LiveUpComing():
     req = requests.get('https://noblepeople.co.uk/show-schedule/', headers={'User-Agent': 'Chrome', 'Accept-Encoding': 'identity', 'Content-Type': 'text/html'})
     soup = BeautifulSoup(req.text, 'html5lib')
     mAllLink = soup.find_all('div', {"class":"qt-part-archive-item"})
     # print(mAllLink)
+    mDataArray = []
     for mLink in mAllLink:
         title = mLink.find("a", {"class":"qt-text-shadow"})
         if title != None:
@@ -69,8 +70,9 @@ def LiveUpComing():
             "sponsor" : mSponsor,
             "img" : mImg
             }
+        mDataArray.append(mData)
 
-    return jsonify({'data':mData})   
+    return jsonify(mDataArray)   
 
 def LiveMag():
     req = requests.get('https://noblepeople.co.uk/magazine/', headers={'User-Agent': 'Chrome', 'Accept-Encoding': 'identity', 'Content-Type': 'text/html'})
@@ -105,7 +107,8 @@ def LiveMag():
 
         mDataArray.append(mData)
 
-    return jsonify({'data':mDataArray})
+
+    return jsonify(mDataArray)
 
 def LiveNews():
     req = requests.get('https://noblepeople.co.uk/news/', headers={'User-Agent': 'Chrome', 'Accept-Encoding': 'identity', 'Content-Type': 'text/html'})
@@ -150,7 +153,7 @@ def LiveNews():
 
         mDataArray.append(mData)
     
-    return jsonify({'data': mDataArray})
+    return jsonify(mDataArray)
 
 class Mag(Resource):
     def get(self):
